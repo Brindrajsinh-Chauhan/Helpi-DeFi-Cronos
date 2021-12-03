@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Web3 from 'web3'
-import { newKitFromWeb3 } from '@celo/contractkit';
-import BigNumber from "bignumber.js";
+import ethers from 'ethers'
+//import { newKitFromWeb3 } from '@celo/contractkit';
+//import BigNumber from "bignumber.js";
 import Tokenaddress from '../../tokenaddress.json';
 
 //Importing Utilities
@@ -15,8 +16,6 @@ import USDToken from 'abis/USDToken.json'
 import INRToken from 'abis/INRToken.json'
 import HelpiToken from 'abis/HELPIToken.json'
 import ERCToken from 'abis/IERC20Token.json'
-import CELOToken from 'abis/IERC20Token.json'
-import cUSDToken from 'abis/IERC20Token.json'
 import stakingcontract from 'abis/StakingContract.json'
 
 // components
@@ -37,7 +36,7 @@ class Staking extends Component {
     super(props)
     this.state = {
       account: '0x0',
-      tokenName: "CELO",
+      tokenName: "TCRO",
       hepliToken: {},
       Token: {},
       yieldFarming: {},
@@ -54,15 +53,15 @@ class Staking extends Component {
   async componentWillMount() {
     let accounts = await connectWallet();
     this.setState({account: accounts})
-    await this.loadingContracts("CELO")
-    await this.loadingTokens("CELO")
+    await this.loadingContracts("TCRO")
+    await this.loadingTokens("TCRO")
   }
 
   loadingContracts = async function (_token) {
   console.log()
       try {
-        const web3 = new Web3(window.celo);
-        kit = newKitFromWeb3(web3);
+        const provider = await new Web3.providers.HttpProvider(Tokenaddress["CRONOS_PROVIDER"])
+        const web3 = new Web3(provider);
 
         const yieldFarming = await loadContract(stakingcontract.abi, yieldfarmingaddress)
         this.setState({ yieldFarming })
@@ -83,8 +82,8 @@ class Staking extends Component {
 
   loadingTokens = async function (_token) {
       try {
-        const web3 = new Web3(window.celo);
-        kit = newKitFromWeb3(web3);
+        const provider = await new Web3.providers.HttpProvider(Tokenaddress["CRONOS_PROVIDER"])
+        const web3 = new Web3(provider);
         this.setState({ loading: false })
 
         let Token = await loadTokens(Tokenaddress[_token], this.state.account, yieldfarmingaddress)
@@ -110,8 +109,8 @@ class Staking extends Component {
   // Function sections
   stakeTokens = (tokentype, amount) => {
   console.log(amount)
+  amount = window.web3.utils.toWei(amount, 'Ether')
     this.setState({ loading: true })
-    amount = BigNumber(amount).shiftedBy(ERC20_DECIMALS)
     this.state.Token.methods.approve(this.state.yieldFarming._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.state.yieldFarming.methods.StakeTokens(this.state.Token._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
          this.setState({ loading: false })
@@ -165,12 +164,12 @@ class Staking extends Component {
       />
     }
     let a =
-    <button type="submit" value = "CELO" class= {this.state.tokenName === "CELO" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
-    Stake Celo
+    <button type="submit" value = "TCRO" class= {this.state.tokenName === "TCRO" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
+    Stake TCRO
     </button>
     let b =
-    <button type="submit" value = "cUSD" class= {this.state.tokenName === "cUSD" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
-    Stake cUSD
+    <button type="submit" value = "USDT" class= {this.state.tokenName === "USDT" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
+    Stake USDT
     </button>
     return (
       <div>
