@@ -1,14 +1,13 @@
 {
-  "USDT": "",
-  "INRT": "",
-  "cPESO": "",
+  "USDT": "0xbC17f23305718ed822D969dA810aa5aDb3daC294",
+  "hINR": "0xFE138BC66a4E7897dCaD7811801E5Bb11F80A298",
+  "hPESO": "0x96B858FDaC4AF705774a43c81D5c8e6c4F4A6Ac4",
   "MUTATE": "",
   "STAKING": "0x4014D41cd4b4e59856CC8Af844F1bD9d808C086E",
   "BUY_SELL": "",
-  "TCRO": "",
+  "WBTC": "0x3D2Ad1DE494db3Eafa53CE0C21298b21a0E75Ba0",
   "HELPI": "0x7bcD5EfCD1B647F4a114A1755C521547A626bee8",
   "URL": "https://api.exchangerate.host/convert?from=",
   "TIME_URL": "http://worldtimeapi.org/api/ip",
   "CRONOS_PROVIDER": "https://cassini.crypto.org:8545"
-
 }
