@@ -4,6 +4,12 @@ import { newKitFromWeb3 } from '@celo/contractkit';
 import BigNumber from "bignumber.js";
 import Tokenaddress from '../tokenaddress.json';
 
+//Importing Utilities
+import {connectWallet} from '../Utilis/connectWallet.js';
+import {loadContract} from '../Utilis/ContractUtilis.js';
+import {formatBalance} from '../Utilis/ContractUtilis.js';
+import {loadTokens} from '../Utilis/ContractUtilis.js';
+
 // token contracts
 import USDToken from '../abis/USDToken.json'
 import INRToken from '../abis/INRToken.json'
@@ -45,7 +51,9 @@ class Contribute extends Component {
 
   // This will call the celo blockchain data functions function and load the web3
   async componentWillMount() {
-    await this.connectCeloWallet()
+    let accounts = await connectWallet();
+    this.setState({account: accounts})
+    await this.loadingContracts()
     await this.getIpTime()
   }
 
@@ -53,55 +61,30 @@ class Contribute extends Component {
       const response = await fetch(Tokenaddress.TIME_URL);
       const data = await response.json();
       this.setState({ currentTime: data.unixtime })
-   }
+   };
 
-  connectCeloWallet = async function () {
-     if (window.celo) {
-         try {
-            //notification("⚠ Please approve this DApp to use it.")
-            await window.celo.enable()
-            //notificationOff()
-            const web3 = new Web3(window.celo)
-            kit = newKitFromWeb3(web3)
-
-            const accounts = await kit.web3.eth.getAccounts()
-            kit.defaultAccount = accounts[0]
-            this.setState({account: accounts[0]})
-            //console.log(account)
-
-            this.setState({ loading: false })
-            console.log("Account connected")
-
+  loadingContracts = async function () {
+        try{
             //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
             // yieldaddress address
-            const yieldFarming = new kit.web3.eth.Contract(stakingcontract.abi, yieldfarmingaddress)
+            const yieldFarming = await loadContract(stakingcontract.abi, yieldfarmingaddress)
             this.setState({ yieldFarming })
             let time = await yieldFarming.methods.lastContribution(this.state.account).call()
             this.setState({ time: time.toString()})
-            console.log("Yieldfarming loaded")
-
-            const mutateToken = new kit.web3.eth.Contract(MutateToken.abi, mutateTokenaddress)
-            this.setState({ mutateToken })
+            console.log("Main contract loaded")
 
             //helpi token contract
-            const helpiToken = new kit.web3.eth.Contract(HelpiToken.abi, helpiTokenaddress)
+            const helpiToken = await loadContract(HelpiToken.abi, helpiTokenaddress)
             this.setState({ helpiToken })
             //let helpiTokenBalance = await helpiToken.methods.balanceOf(this.state.account).call()
             //helpiTokenBalance = BigNumber(helpiTokenBalance).shiftedBy(-ERC20_DECIMALS)
             //this.setState({ helpiTokenBalance: helpiTokenBalance.toString() })
             console.log("HELPI loaded")
 
-            console.log("All Contracts loaded")
-
-         } catch (error) {
-             //notification(`⚠️ ${error}.`)
-             console.log({error})
-             //this.setState({ loading: false })
-         }
-     } else {
-            //notification("⚠️ Please install the CeloExtensionWallet.")
-            console.log("Error! - Else section")
-     }
+        } catch (error) {
+            console.log("Error! -  Main Contract section")
+            console.log({ error })
+        }
   }
 
   // Function sections
