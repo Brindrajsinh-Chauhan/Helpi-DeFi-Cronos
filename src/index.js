@@ -16,8 +16,12 @@ dotenv.config()
 //Middleware
 //app.use(morgan('dev'));
 //app.use(express.urlencoded({extended:false}));
-app.use(express.json());
+//app.use(express.json());
 
+
+app.get('/', async(req, res) => {
+    res.send("Hello Chainlink Bridge");
+});
 
 //Get
 app.get('/getPriceFromSource', async(req, res) => {
