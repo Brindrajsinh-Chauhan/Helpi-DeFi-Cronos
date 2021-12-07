@@ -33,7 +33,7 @@ let b_currency = "COP"
 const ERC20_DECIMALS = 18
 const mutatetokenaddress = Tokenaddress.MUTATE
 const aTokenaddress = Tokenaddress.USDT
-const bTokenaddress = Tokenaddress.cPESO
+const bTokenaddress = Tokenaddress.hPESO
 
 
 class USD_cPESO extends Component {
@@ -42,11 +42,11 @@ class USD_cPESO extends Component {
     super(props)
     this.state = {
       account: '0x0',
-      a: "hUSD",
+      a: "USDT",
       b: "hINR",
       atoken: {},
       btoken: {},
-      aTokenaddress: Currency["hUSD"].address,
+      aTokenaddress: Currency["USDT"].address,
       bTokenaddress: Currency["hINR"].address,
       mutatetoken: {},
       aTokenBalance: '0',
@@ -78,9 +78,6 @@ class USD_cPESO extends Component {
 
   loadingContracts = async function () {
       try {
-        const web3 = new Web3(window.celo);
-        kit = newKitFromWeb3(web3);
-
         //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
         // tokenswitch address
         const mutatetoken = await loadContract(MutateToken.abi, mutatetokenaddress)
@@ -95,8 +92,6 @@ class USD_cPESO extends Component {
 
   loadingTokens = async function (address_a, address_b) {
       try {
-        const web3 = new Web3(window.celo);
-        kit = newKitFromWeb3(web3);
         this.setState({ loading: false })
 
         let aToken = await loadTokens(address_a, this.state.account, mutatetokenaddress)
@@ -132,7 +127,7 @@ class USD_cPESO extends Component {
   // USDT(a) - cPESO(b)
   a_b = (ato, aamount) => {
     this.setState({ loading: true})
-    aamount = BigNumber(aamount).shiftedBy(ERC20_DECIMALS)
+    aamount = window.web3.utils.toWei(aamount, 'Ether')
     let exchangerate = BigNumber(this.state.exchangerate).shiftedBy(2)
     this.state.aToken.methods.approve(this.state.mutatetoken._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.state.mutatetoken.methods.mutate(this.state.aToken._address, this.state.bToken._address, ato, aamount,exchangerate, true).send({ from: this.state.account }).on('transactionHash', (hash) => {
@@ -175,7 +170,7 @@ class USD_cPESO extends Component {
     }
     let a =
     <select class="flex w-1/2 rounded-none text-center text-lg text-white bg-red-400" onChange={this.ahandleChange}>
-        <option class="bg-white text-black" value="hUSD">hUSD</option>
+        <option class="bg-white text-black" value="USDT">USDT</option>
         <option class="bg-white text-black" value="hINR">hINR</option>
         <option class="bg-white text-black"value="hPESO">hPESO</option>
     </select>
@@ -183,7 +178,7 @@ class USD_cPESO extends Component {
     let b =
     <select class="flex w-1/2 rounded-none text-center text-lg" onChange={this.bhandleChange}>
         <option value="hINR">hINR</option>
-        <option value="hUSD">hUSD</option>
+        <option value="USDT">USDT</option>
         <option value="hPESO">hPESO</option>
     </select>
     return (
