@@ -1,20 +1,20 @@
 {
-  "hUSD":
+  "USDT":
   {
     "symbol": "USD",
-    "address": "0x0beea6470bb0ba16191ad46d7e36f13fb01f554d",
+    "address": "0xbC17f23305718ed822D969dA810aa5aDb3daC294",
     "exchange_rate": 1
   },
   "hINR":
   {
     "symbol": "INR",
-    "address": "0x8c5e092683918372657c87168ea32c1703f39389",
+    "address": "0xFE138BC66a4E7897dCaD7811801E5Bb11F80A298",
     "exchange_rate": 74.98
   },
   "hPESO":
   {
     "symbol": "COP",
-    "address": "0xCF765d67b27B2a32d86ea5920167F9677E1b578b",
+    "address": "0x96B858FDaC4AF705774a43c81D5c8e6c4F4A6Ac4",
     "exchange_rate": 3772.52
   },
   "CELO":
