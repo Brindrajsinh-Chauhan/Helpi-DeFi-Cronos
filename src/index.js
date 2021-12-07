@@ -14,7 +14,7 @@ app.set('json spaces', 2);
 dotenv.config()
 
 //Middleware
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
@@ -66,7 +66,7 @@ app.get('/getPriceFromDestiny', async(req, res) => {
 
         const contract = await new web3.eth.Contract(ChronosPriceFeed, process.env.CRONOS_PRICE_FEED_CONTRACT);
         const tx = await contract.methods.getLastPriceSavedByChainlink(isValidToken).call({from: process.env.ACCOUNT})        
-        console.log(isValidToken)            
+              
         return res.send({ value: tx })
 
     } catch (error) {
@@ -140,14 +140,14 @@ app.post('/updatePriceDestiny', async(req, res) => {
             answeredInRound: 1
         }
         
-        console.log(lastPrice)
+        
 
         const txBuilder = await destinyContract.methods.saveLastPriceFeed(lastPrice)
         let encodedTx = txBuilder.encodeABI()   
     
         let txObject = {
             data: encodedTx,
-            gas: 80000,
+            gas: 60000,
             from: process.env.ACCOUNT,
             to: process.env.CRONOS_PRICE_FEED_CONTRACT
         }
@@ -173,7 +173,7 @@ app.post('/updatePriceDestiny', async(req, res) => {
 
 //Initialazing Server
 app.listen(app.get('port'), () => {
-    console.log(`Port listening ${app.get('port')}`);
+    console.log(`Port listening: ${app.get('port')}`);
 });
 
 
