@@ -29,6 +29,7 @@ const helpiTokenaddress = Tokenaddress.HELPI
 
 //variables
 let kit
+let token_name = "WBTC"
 
 class Staking extends Component {
 
@@ -36,7 +37,7 @@ class Staking extends Component {
     super(props)
     this.state = {
       account: '0x0',
-      tokenName: "TCRO",
+      tokenName: token_name,
       hepliToken: {},
       Token: {},
       yieldFarming: {},
@@ -53,16 +54,13 @@ class Staking extends Component {
   async componentWillMount() {
     let accounts = await connectWallet();
     this.setState({account: accounts})
-    await this.loadingContracts("TCRO")
-    await this.loadingTokens("TCRO")
+    await this.loadingContracts(token_name)
+    await this.loadingTokens(token_name)
   }
 
   loadingContracts = async function (_token) {
   console.log()
       try {
-        const provider = await new Web3.providers.HttpProvider(Tokenaddress["CRONOS_PROVIDER"])
-        const web3 = new Web3(provider);
-
         const yieldFarming = await loadContract(stakingcontract.abi, yieldfarmingaddress)
         this.setState({ yieldFarming })
         let stakingBalance = await yieldFarming.methods.balanceOf(Tokenaddress[_token], this.state.account).call()
@@ -75,6 +73,7 @@ class Staking extends Component {
         console.log("Main Contract loaded")
 
       } catch (error) {
+        console.log("This is account",this.state.account)
         console.log("Error! -  Main Contract section")
         console.log({ error })
       }
@@ -111,11 +110,13 @@ class Staking extends Component {
   console.log(amount)
   amount = window.web3.utils.toWei(amount, 'Ether')
     this.setState({ loading: true })
-    this.state.Token.methods.approve(this.state.yieldFarming._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.yieldFarming.methods.StakeTokens(this.state.Token._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-         this.setState({ loading: false })
-       })
-     })
+    this.state.Token.methods.approve(this.state.yieldFarming._address, amount)
+    .send({ from: this.state.account })
+    //.on('transactionHash', (hash) => {
+      //this.state.yieldFarming.methods.StakeTokens(this.state.Token._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+         //this.setState({ loading: false })
+       //})
+     //})
   }
 
   unstakeTokens = (tokentype) => {
@@ -143,11 +144,8 @@ class Staking extends Component {
 
   render() {
     let content
-    if (this.state.celoAPR == "Infinity") {
-      this.state.celoAPR = "100000"
-    }
-    if (this.state.cusdAPR == "Infinity") {
-      this.state.cusdAPR = "100000"
+    if (this.state.APR == "Infinity") {
+      this.state.APR = "100000"
     }
     if (this.state.loading) {
       content = <p id="loader" className="text-center">Loading...</p>
@@ -164,8 +162,8 @@ class Staking extends Component {
       />
     }
     let a =
-    <button type="submit" value = "TCRO" class= {this.state.tokenName === "TCRO" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
-    Stake TCRO
+    <button type="submit" value = "WBTC" class= {this.state.tokenName === "WBTC" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
+    Stake WBTC
     </button>
     let b =
     <button type="submit" value = "USDT" class= {this.state.tokenName === "USDT" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
