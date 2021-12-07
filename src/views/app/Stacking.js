@@ -81,8 +81,8 @@ class Staking extends Component {
 
   loadingTokens = async function (_token) {
       try {
-        const provider = await new Web3.providers.HttpProvider(Tokenaddress["CRONOS_PROVIDER"])
-        const web3 = new Web3(provider);
+        //const provider = await new Web3.providers.HttpProvider(Tokenaddress["CRONOS_PROVIDER"])
+        //const web3 = new Web3(provider);
         this.setState({ loading: false })
 
         let Token = await loadTokens(Tokenaddress[_token], this.state.account, yieldfarmingaddress)
@@ -110,13 +110,11 @@ class Staking extends Component {
   console.log(amount)
   amount = window.web3.utils.toWei(amount, 'Ether')
     this.setState({ loading: true })
-    this.state.Token.methods.approve(this.state.yieldFarming._address, amount)
-    .send({ from: this.state.account })
-    //.on('transactionHash', (hash) => {
-      //this.state.yieldFarming.methods.StakeTokens(this.state.Token._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-         //this.setState({ loading: false })
-       //})
-     //})
+    this.state.Token.methods.approve(this.state.yieldFarming._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.yieldFarming.methods.StakeTokens(this.state.Token._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+         this.setState({ loading: false })
+       })
+    })
   }
 
   unstakeTokens = (tokentype) => {

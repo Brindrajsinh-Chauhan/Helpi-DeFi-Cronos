@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Web3 from 'web3'
 import { newKitFromWeb3 } from '@celo/contractkit';
-import BigNumber from "bignumber.js";
+//import BigNumber from "bignumber.js";
 import Tokenaddress from '../../tokenaddress.json';
 
 //Importing Utilities
@@ -64,8 +64,6 @@ class Vesting extends Component {
 
   loadingContracts = async function () {
       try {
-        const web3 = new Web3(window.celo);
-        kit = newKitFromWeb3(web3);
 
         //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
         // tokenswitch address
@@ -92,8 +90,7 @@ class Vesting extends Component {
 
   loadingTokens = async function () {
       try {
-        const web3 = new Web3(window.celo);
-        kit = newKitFromWeb3(web3);
+
         this.setState({ loading: false })
 
         //helpi token contract
@@ -118,7 +115,7 @@ class Vesting extends Component {
 
 
   redeemToken = (amount) => {
-    amount = BigNumber(amount).shiftedBy(ERC20_DECIMALS)
+    amount = window.web3.utils.toWei(amount, 'Ether')
     this.setState({ loading: true })
     this.state.yieldFarming.methods.redeemTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
