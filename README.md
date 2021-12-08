@@ -4,7 +4,7 @@ Simple REST API demo illustrating interaction with an Ethereum (EVM) smart contr
 
 This API will be used to bridge Chainlink Price Feed from Polygon Mumbai to Cronos Cassini.
 
-##JSON File specifies Contracts from Source and Destiny
+## JSON File specifies Contracts from Source and Destiny
 
 ```
 {
