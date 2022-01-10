@@ -43,6 +43,7 @@ class Contribute extends Component {
       account: '0x0',
       staking: {},
       mutateToken: {},
+      network: {},
       currentTime: '0',
       time: '0',
       loading: true
@@ -51,30 +52,32 @@ class Contribute extends Component {
 
   // This will call the celo blockchain data functions function and load the web3
   async componentWillMount() {
-    let accounts = await connectWallet();
-    this.setState({account: accounts})
+    let connection = await connectWallet();
+    this.setState({account: connection.account})
+    this.setState({network: Tokenaddress[connection.network]})
     await this.loadingContracts()
-    await this.getIpTime()
+    await this.getTime()
   }
 
-  getIpTime = async function () {
-      const response = await fetch(Tokenaddress.TIME_URL);
-      const data = await response.json();
-      this.setState({ currentTime: data.unixtime })
-   };
+  getTime = async function ()
+  {
+    let data = Date.now()
+    this.setState({ currentTime: data })
+  }
+
 
   loadingContracts = async function () {
         try{
-            //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
-            // yieldaddress address
-            const yieldFarming = await loadContract(stakingcontract.abi, yieldfarmingaddress)
+            let network = this.state.network
+
+            const yieldFarming = await loadContract(stakingcontract.abi, network["STAKING"])
             this.setState({ yieldFarming })
             let time = await yieldFarming.methods.lastContribution(this.state.account).call()
             this.setState({ time: time.toString()})
             console.log("Main contract loaded")
 
             //helpi token contract
-            const helpiToken = await loadContract(HelpiToken.abi, helpiTokenaddress)
+            const helpiToken = await loadContract(HelpiToken.abi, network["HELPI"])
             this.setState({ helpiToken })
             //let helpiTokenBalance = await helpiToken.methods.balanceOf(this.state.account).call()
             //helpiTokenBalance = BigNumber(helpiTokenBalance).shiftedBy(-ERC20_DECIMALS)

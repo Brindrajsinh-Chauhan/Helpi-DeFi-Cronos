@@ -11,12 +11,12 @@ export default function Landing() {
     <>
       <Navbar transparent />
       <main>
-        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
+        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen">
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
             style={{
               backgroundImage:
-                "url('/back2.jpg')",
+                "url(/back3.jpg)",
             }}
           >
             <span
@@ -29,10 +29,10 @@ export default function Landing() {
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
                   <h1 className="text-white font-semibold text-5xl">
-                    DeFi Applications
+
                   </h1>
                   <p className="mt-4 text-lg text-gray-200">
-                    With decentralized stablecoin pools and farms.
+
                   </p>
                 </div>
               </div>
@@ -215,21 +215,24 @@ export default function Landing() {
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-primary">
                     <i className="fas fa-rocket text-xl"></i>
                   </div>
-                  <h3 className="text-3xl font-semibold">A growing comunity</h3>
+                  <h3 className="text-3xl font-semibold">Our Achivements</h3>
                   <p className="mt-4 text-lg leading-relaxed text-gray-500">
-                    Aliquip quis aliqua consectetur qui laboris. Ipsum sint non deserunt ut aliquip dolore eiusmod duis. Excepteur non cillum anim eiusmod aliquip proident nisi tempor pariatur Lorem dolor. Anim laboris aliquip laborum ea consectetur aute. Est labore excepteur voluptate occaecat dolor amet anim eiusmod anim aute. Esse sint duis aliqua aliqua quis elit consectetur proident commodo est proident aliquip pariatur.
+                    Our Team has been active in the community and have participated in various challenges and our results prove that our solutions is promising and the ability to make an impact.
+                  </p>
+                  <p className="mt-4 text-lg leading-relaxed text-gray-500">
+                    Some of our Notable Achivement are
                   </p>
                   <ul className="list-none mt-6">
                     <li className="py-2">
                       <div className="flex items-center">
                         <div>
                           <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-primary mr-3">
-                            <i className="fas fa-fingerprint"></i>
+                            <i className="fas fa-quote-left"></i>
                           </span>
                         </div>
                         <div>
                           <h4 className="text-gray-500">
-                            Enim quis cillum velit laboris laborum ipsum id.
+                            April 2021 - Third prize in Gitcoin Binance Smart Chain Hackathon
                           </h4>
                         </div>
                       </div>
@@ -238,12 +241,12 @@ export default function Landing() {
                       <div className="flex items-center">
                         <div>
                           <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-primary mr-3">
-                            <i className="fab fa-html5"></i>
+                            <i className="fas fa-quote-left"></i>
                           </span>
                         </div>
                         <div>
                           <h4 className="text-gray-500">
-                            Laboris quis magna ea enim mollit aliquip esse non anim consectetur.
+                            May 2021 - Best LatAm Team Gitcoin Celo Mobilize Hackathon
                           </h4>
                         </div>
                       </div>
@@ -252,12 +255,26 @@ export default function Landing() {
                       <div className="flex items-center">
                         <div>
                           <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-primary mr-3">
-                            <i className="far fa-paper-plane"></i>
+                            <i className="fas fa-quote-left"></i>
                           </span>
                         </div>
                         <div>
                           <h4 className="text-gray-500">
-                            Non reprehenderit non dolor qui proident reprehenderit incididunt.
+                            June 2021 - Runners-up Degen VC Gitcoin Hackathon
+                          </h4>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="py-2">
+                      <div className="flex items-center">
+                        <div>
+                          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-primary mr-3">
+                            <i className="fas fa-quote-left"></i>
+                          </span>
+                        </div>
+                        <div>
+                          <h4 className="text-gray-500">
+                            November 2021 - Mission-alligned Team in Celo Startup Pathway
                           </h4>
                         </div>
                       </div>
@@ -384,45 +401,10 @@ export default function Landing() {
             <div className="flex flex-wrap text-center justify-center">
               <div className="w-full lg:w-6/12 px-4">
                 <h2 className="text-4xl font-semibold text-white">
-                  Build something
+                  We Build for the People
                 </h2>
                 <p className="text-lg leading-relaxed mt-4 mb-4 text-gray-300">
-                 Deserunt nisi pariatur incididunt ut est est aliquip qui labore aliqua reprehenderit non labore. Velit minim nulla tempor eu commodo sunt dolore adipisicing esse consequat esse culpa amet. Pariatur do id minim reprehenderit deserunt laboris irure nostrud quis. Dolore amet nisi laboris ullamco laboris aliqua in ad. Minim culpa irure commodo occaecat duis occaecat sit.
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-wrap mt-12 justify-center">
-              <div className="w-full lg:w-3/12 px-4 text-center">
-                <div className="text-gray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-                  <i className="fas fa-medal text-xl"></i>
-                </div>
-                <h6 className="text-xl mt-5 font-semibold text-white">
-                 Fugiat in nisi incididunt
-                </h6>
-                <p className="mt-2 mb-4 text-gray-400">
-                  Qui enim proident exercitation incididunt nulla incididunt nisi sit ut nisi proident mollit.
-                </p>
-              </div>
-              <div className="w-full lg:w-3/12 px-4 text-center">
-                <div className="text-gray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-                  <i className="fas fa-poll text-xl"></i>
-                </div>
-                <h5 className="text-xl mt-5 font-semibold text-white">
-                  Velit consequat culpa
-                </h5>
-                <p className="mt-2 mb-4 text-gray-400">
-                  Duis velit sint mollit ex adipisicing labore quis culpa cillum reprehenderit culpa elit in exercitation.
-                </p>
-              </div>
-              <div className="w-full lg:w-3/12 px-4 text-center">
-                <div className="text-gray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
-                  <i className="fas fa-lightbulb text-xl"></i>
-                </div>
-                <h5 className="text-xl mt-5 font-semibold text-white">
-                  Proident exercitation
-                </h5>
-                <p className="mt-2 mb-4 text-gray-400">
-                 Occaecat sint sint ea ut labore laborum occaecat pariatur dolore labore nostrud.
+
                 </p>
               </div>
             </div>
