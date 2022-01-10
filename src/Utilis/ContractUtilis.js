@@ -20,7 +20,8 @@ let formatBalance = async function (balance) {
 
     const web3 = await loadweb3()
     let Balance = web3.utils.fromWei(balance, 'Ether')
-    //Balance = Balance.toFixed(2)
+    Balance = parseFloat(Balance)
+    Balance = Balance.toFixed(2)
     return Balance;
 };
 
@@ -32,9 +33,11 @@ let loadTokens = async function (tokenAddress ,account, contractAddress) {
     let accountBalance = await contract.methods.balanceOf(account).call()
     let contractBalance = await contract.methods.balanceOf(contractAddress).call()
     accountBalance = web3.utils.fromWei(accountBalance, 'Ether')
-    //accountBalance = accountBalance.toFixed(2)
+    accountBalance = parseFloat(accountBalance)
+    accountBalance = accountBalance.toFixed(2)
     contractBalance = web3.utils.fromWei(contractBalance, 'Ether')
-    //contractBalance = contractBalance.toFixed(2)
+    contractBalance = parseFloat(contractBalance)
+    contractBalance = contractBalance.toFixed(2)
     return {contract: contract, accountBalance: accountBalance, contractBalance: contractBalance};
 
 };
