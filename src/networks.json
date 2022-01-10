@@ -1,0 +1,32 @@
+{
+  "0xAEF3":
+  {
+    "chainName": "Celo Network - Alfajores",
+    "rpcUrl": "https://alfajores-forno.celo-testnet.org",
+    "nativeCurrency":{
+      "name": "CELO",
+      "symbol": "CELO",
+      "decimal": 18
+    }
+  },
+  "0x153":
+  {
+    "chainName": "Cronos Network - Cassini",
+    "rpcUrl": "https://cassini.crypto.org:8545/",
+    "nativeCurrency":{
+      "name": "TCRO",
+      "symbol": "TCRO",
+      "decimal": 18
+    }
+  },
+  "0xA869":
+  {
+    "chainName": "Avalanche Network",
+    "rpcUrl": "https://api.avax-test.network/ext/bc/C/rpc",
+    "nativeCurrency":{
+      "name": "AVAX",
+      "symbol": "AVAX",
+      "decimal": 18
+    }
+  }
+}

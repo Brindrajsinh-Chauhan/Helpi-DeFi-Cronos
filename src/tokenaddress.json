@@ -1,13 +1,54 @@
 {
-  "USDT": "0xbC17f23305718ed822D969dA810aa5aDb3daC294",
-  "hINR": "0xFE138BC66a4E7897dCaD7811801E5Bb11F80A298",
-  "hPESO": "0x96B858FDaC4AF705774a43c81D5c8e6c4F4A6Ac4",
-  "MUTATE": "0xF00659D160BD3C672629Cbe150EdDa9C8E9a255A",
-  "STAKING": "0x4014D41cd4b4e59856CC8Af844F1bD9d808C086E",
-  "BUY_SELL": "",
-  "WBTC": "0x3D2Ad1DE494db3Eafa53CE0C21298b21a0E75Ba0",
-  "HELPI": "0x7bcD5EfCD1B647F4a114A1755C521547A626bee8",
-  "URL": "https://api.exchangerate.host/convert?from=",
-  "TIME_URL": "http://worldtimeapi.org/api/ip",
-  "CRONOS_PROVIDER": "https://cassini.crypto.org:8545"
+  "339":
+  {
+    "network": "Cronos Testnet - Cassini",
+    "network-id": "339",
+    "Tokens": ["WBTC", "USDT", "hINR", "hPESO"],
+    "USDT": "0xbC17f23305718ed822D969dA810aa5aDb3daC294",
+    "hINR": "0xFE138BC66a4E7897dCaD7811801E5Bb11F80A298",
+    "hPESO": "0x96B858FDaC4AF705774a43c81D5c8e6c4F4A6Ac4",
+    "MUTATE": "0xF00659D160BD3C672629Cbe150EdDa9C8E9a255A",
+    "STAKING": "0x4014D41cd4b4e59856CC8Af844F1bD9d808C086E",
+    "BUY_SELL": "",
+    "WBTC": "0x3D2Ad1DE494db3Eafa53CE0C21298b21a0E75Ba0",
+    "HELPI": "0x7bcD5EfCD1B647F4a114A1755C521547A626bee8",
+    "URL": "https://api.exchangerate.host/convert?from=",
+    "TIME_URL": "http://worldtimeapi.org/api/ip",
+    "CRONOS_PROVIDER": "https://cassini.crypto.org:8545"
+  },
+  "44787":
+  {
+    "network": "Celo Testnet - Alfajores",
+    "network-id": "44787",
+    "Tokens": ["CELO", "cUSD", "hINR", "hPESO"],
+    "USDT": "0x0beea6470bb0ba16191ad46d7e36f13fb01f554d",
+    "hINR": "0x8c5e092683918372657c87168ea32c1703f39389",
+    "hPESO": "0xCF765d67b27B2a32d86ea5920167F9677E1b578b",
+    "MUTATE": "0xc68cfFC9ef30533D7107495092E4bAeE3fd2DDcD",
+    "STAKING": "0x7B6F452fB8A91e7863545a2cd8d24EF017Ac2c7D",
+    "YIELD": "0x0ff8619416FB995E38509EA277e37eB13e9F8853",
+    "BUY_SELL": "0x0c111675C2202E71326f796bf144B23C205cc5F2",
+    "CELO": "0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9",
+    "cUSD": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+    "HELPI": "0x3d51e077bcCF32678d6FC3721Bfc2D105EB7652f",
+    "URL": "https://api.exchangerate.host/convert?from=",
+    "TIME_URL": "http://worldtimeapi.org/api/ip"
+  },
+  "1":
+  {
+    "network": "Avalanche Testnet",
+    "network-id": "43113",
+    "Tokens": ["WBTC", "USDT", "hINR", "hPESO"],
+    "USDT": "0xbC17f23305718ed822D969dA810aa5aDb3daC294",
+    "hINR": "0xFE138BC66a4E7897dCaD7811801E5Bb11F80A298",
+    "hPESO": "0x96B858FDaC4AF705774a43c81D5c8e6c4F4A6Ac4",
+    "MUTATE": "0x48eCADC4306acfFD5679bf25989428ABE32C09b2",
+    "STAKING": "0x9038C54Ddb733a0b45641Dec5D4F5fC3E7E11d7c",
+    "BUY_SELL": "",
+    "WBTC": "0x3D2Ad1DE494db3Eafa53CE0C21298b21a0E75Ba0",
+    "HELPI": "0x1257C5DD2be17dc0Ee9cFe9E5011d07A8fcc8a54",
+    "URL": "https://api.exchangerate.host/convert?from=",
+    "TIME_URL": "http://worldtimeapi.org/api/ip",
+    "CRONOS_PROVIDER": "https://cassini.crypto.org:8545"
+  }
 }
