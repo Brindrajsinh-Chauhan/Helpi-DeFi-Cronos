@@ -111,16 +111,16 @@ export default function Sidebar() {
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/stacking") !== -1
+                    (window.location.href.indexOf("/app/staking") !== -1
                       ? "text-secondary bg-white hover:text-primary-600"
-                      : "text-white hover:text-secondary")
+                      : "text-white hover:bg-primary-400")
                   }
                   to="/app/staking"
                 >
                   <i
                     className={
-                      "fas fa-boxes mr-2 text-sm " +
-                      (window.location.href.indexOf("/app/stacking") !== -1
+                      "fas fa-layer-group mr-2 text-sm " +
+                      (window.location.href.indexOf("/app/staking") !== -1
                         ? "opacity-75"
                         : "text-white")
                     }
@@ -159,11 +159,11 @@ export default function Sidebar() {
                       ? "text-secondary bg-white hover:text-primary-600"
                       : "text-white hover:bg-primary-400")
                   }
-                  to="/app/buy-sell"
+                  to="/app/"
                 >
                   <i
                     className={
-                      "fas fa-exchange-alt mr-2 text-sm " +
+                      "fas fa-university mr-2 text-sm " +
                       (window.location.href.indexOf("/app/buy-sell") !== -1
                         ? "opacity-75"
                         : "text-white")
