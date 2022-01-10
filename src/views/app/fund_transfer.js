@@ -19,7 +19,8 @@ import MutateToken from 'abis/MutateToken.json'
 // components
 import TokenMain from '../../components/app/Main'
 import TitlePill from '../../components/Pills/TitlePill.js'
-
+import {redDropdownPill} from '../../components/Pills/dropdownPill.js'
+import {whiteDropdownPill} from '../../components/Pills/dropdownPill.js'
 //variables
 let kit
 //currencies to convert with currency code
@@ -31,9 +32,9 @@ let b_currency = "COP"
 
 //contracts address
 const ERC20_DECIMALS = 18
-const mutatetokenaddress = Tokenaddress.MUTATE
-const aTokenaddress = Tokenaddress.USDT
-const bTokenaddress = Tokenaddress.hPESO
+//const mutatetokenaddress = Tokenaddress.MUTATE
+//const aTokenaddress = Tokenaddress.USDT
+//const bTokenaddress = Tokenaddress.hPESO
 
 
 class USD_cPESO extends Component {
@@ -42,12 +43,13 @@ class USD_cPESO extends Component {
     super(props)
     this.state = {
       account: '0x0',
+      network: Tokenaddress["339"],
       a: "USDT",
       b: "hINR",
       atoken: {},
       btoken: {},
-      aTokenaddress: Currency["USDT"].address,
-      bTokenaddress: Currency["hINR"].address,
+      aTokenaddress: Tokenaddress["339"]["USDT"],
+      bTokenaddress: Tokenaddress["339"]["hINR"],
       mutatetoken: {},
       aTokenBalance: '0',
       bTokenBalance: '0',
@@ -62,8 +64,13 @@ class USD_cPESO extends Component {
 
   // This will call the celo blockchain data functions function and load the web3
   async componentWillMount() {
-    let accounts = await connectWallet();
-    this.setState({account: accounts})
+    let connection = await connectWallet();
+    this.setState({account: connection.account})
+    this.setState({network: Tokenaddress[connection.network]})
+    this.setState({a: Tokenaddress[connection.network]["Tokens"][1]})
+    this.setState({b: Tokenaddress[connection.network]["Tokens"][2]})
+    this.setState({aTokenaddress: Tokenaddress[connection.network][Tokenaddress[connection.network]["Tokens"][1]]})
+    this.setState({bTokenaddress: Tokenaddress[connection.network][Tokenaddress[connection.network]["Tokens"][2]]})
     await this.loadingContracts()
     await this.loadingTokens(this.state.aTokenaddress, this.state.bTokenaddress)
     //await this.getExchangeRate()
@@ -78,9 +85,8 @@ class USD_cPESO extends Component {
 
   loadingContracts = async function () {
       try {
-        //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
-        // tokenswitch address
-        const mutatetoken = await loadContract(MutateToken.abi, mutatetokenaddress)
+        let network = this.state.network
+        const mutatetoken = await loadContract(MutateToken.abi, network["MUTATE"])
         this.setState({ mutatetoken })
         console.log("Mutate Token loaded")
 
@@ -93,13 +99,13 @@ class USD_cPESO extends Component {
   loadingTokens = async function (address_a, address_b) {
       try {
         this.setState({ loading: false })
-
-        let aToken = await loadTokens(address_a, this.state.account, mutatetokenaddress)
+        let network = this.state.network
+        let aToken = await loadTokens(address_a, this.state.account, network["MUTATE"])
         this.setState({aToken: aToken.contract})
         this.setState({aTokenBalance: aToken.accountBalance})
         this.setState({apoolBalance: aToken.contractBalance})
 
-        let bToken = await loadTokens(address_b, this.state.account, mutatetokenaddress)
+        let bToken = await loadTokens(address_b, this.state.account, network["MUTATE"])
         this.setState({bToken: bToken.contract})
         this.setState({bTokenBalance: bToken.accountBalance})
         this.setState({bpoolBalance: bToken.contractBalance})
@@ -113,14 +119,13 @@ class USD_cPESO extends Component {
 
   updateValue = async function (atoken, btoken){
     console.log(atoken, btoken)
-    this.setState({aTokenaddress: Currency[atoken].address})
-    this.setState({bTokenaddress: Currency[btoken].address})
+    let network = this.state.network
+    this.setState({aTokenaddress: network[atoken]})
+    this.setState({bTokenaddress: network[btoken]})
     let exchangevalue = Currency[btoken].exchange_rate / Currency[atoken].exchange_rate
     exchangevalue = exchangevalue.toFixed(2)
     this.setState({exchangerate: exchangevalue})
-    this.loadingTokens(Currency[atoken].address, Currency[btoken].address)
-
-    console.log("We are in the update function")
+    this.loadingTokens(network[atoken], network[btoken])
   }
 
   // Function sections=================================================================================
@@ -168,19 +173,12 @@ class USD_cPESO extends Component {
             b_a = {this.b_a}
         />
     }
-    let a =
-    <select class="flex w-1/2 rounded-none text-center text-lg text-white bg-red-400" onChange={this.ahandleChange}>
-        <option class="bg-white text-black" value="USDT">USDT</option>
-        <option class="bg-white text-black" value="hINR">hINR</option>
-        <option class="bg-white text-black"value="hPESO">hPESO</option>
-    </select>
+    let token_1 = this.state.network["Tokens"][1]
+    let token_2 = this.state.network["Tokens"][2]
+    let token_3 = this.state.network["Tokens"][3]
+    let a = redDropdownPill(token_1, token_2, token_3, this.ahandleChange)
+    let b = whiteDropdownPill(token_2, token_1, token_3, this.bhandleChange)
 
-    let b =
-    <select class="flex w-1/2 rounded-none text-center text-lg" onChange={this.bhandleChange}>
-        <option value="hINR">hINR</option>
-        <option value="USDT">USDT</option>
-        <option value="hPESO">hPESO</option>
-    </select>
     return (
       <div>
         <div className="container-fluid mt-5">

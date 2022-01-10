@@ -10,6 +10,8 @@ import {connectWallet} from '../../Utilis/connectWallet.js';
 import {loadContract} from '../../Utilis/ContractUtilis.js';
 import {formatBalance} from '../../Utilis/ContractUtilis.js';
 import {loadTokens} from '../../Utilis/ContractUtilis.js';
+import {isSupported} from '../../Utilis/web3tools.js';
+import {changeNetwork} from '../../Utilis/web3tools.js';
 
 // token contracts
 import USDToken from 'abis/USDToken.json'
@@ -21,23 +23,25 @@ import stakingcontract from 'abis/StakingContract.json'
 // components
 import YieldMain from 'components/app/YieldMain'
 import TitlePill from '../../components/Pills/TitlePill.js'
+import ButtonPill from '../../components/Pills/buttonPill.js'
 
 //contracts address
 const ERC20_DECIMALS = 18
-const yieldfarmingaddress = Tokenaddress.STAKING
-const helpiTokenaddress = Tokenaddress.HELPI
+//const yieldfarmingaddress = Tokenaddress[this.state.network].STAKING
+//const helpiTokenaddress = Tokenaddress.HELPI
 
 //variables
 let kit
 let token_name = "WBTC"
-
+let supported_networks = ["339", "44787"]
 class Staking extends Component {
 
     constructor(props) {
     super(props)
     this.state = {
       account: '0x0',
-      tokenName: token_name,
+      network: Tokenaddress["339"],
+      tokenName: "",
       hepliToken: {},
       Token: {},
       yieldFarming: {},
@@ -45,25 +49,35 @@ class Staking extends Component {
       helpiTokenBalance: '0',
       stakingBalance: '0',
       APR: '100000',
-      loading: true
+      loading: true,
+      supported: true
     };
     this.handleClick = this.handleClick.bind(this)
   }
 
 
   async componentWillMount() {
-    let accounts = await connectWallet();
-    this.setState({account: accounts})
-    await this.loadingContracts(token_name)
-    await this.loadingTokens(token_name)
+    let connection = await connectWallet();
+    this.setState({account: connection.account})
+    this.setState({network: Tokenaddress[connection.network]})
+    let supported = await isSupported(connection.network)
+    if (supported)
+    {
+        let token_name = Tokenaddress[connection.network].Tokens[0]
+        this.setState({tokenName: token_name})
+        await this.loadingContracts(token_name)
+        await this.loadingTokens(token_name)
+    }else{
+        this.setState({supported: false})
+    }
   }
 
   loadingContracts = async function (_token) {
-  console.log()
+      let network = this.state.network
       try {
-        const yieldFarming = await loadContract(stakingcontract.abi, yieldfarmingaddress)
+        const yieldFarming = await loadContract(stakingcontract.abi, network["STAKING"])
         this.setState({ yieldFarming })
-        let stakingBalance = await yieldFarming.methods.balanceOf(Tokenaddress[_token], this.state.account).call()
+        let stakingBalance = await yieldFarming.methods.balanceOf(network[_token], this.state.account).call()
         stakingBalance = await formatBalance(stakingBalance)
         this.setState({ stakingBalance: stakingBalance.toString() })
         let testTime = await yieldFarming.methods.lastContribution(this.state.account).call()
@@ -73,7 +87,7 @@ class Staking extends Component {
         console.log("Main Contract loaded")
 
       } catch (error) {
-        console.log("This is account",this.state.account)
+
         console.log("Error! -  Main Contract section")
         console.log({ error })
       }
@@ -81,11 +95,10 @@ class Staking extends Component {
 
   loadingTokens = async function (_token) {
       try {
-        //const provider = await new Web3.providers.HttpProvider(Tokenaddress["CRONOS_PROVIDER"])
-        //const web3 = new Web3(provider);
-        this.setState({ loading: false })
 
-        let Token = await loadTokens(Tokenaddress[_token], this.state.account, yieldfarmingaddress)
+        this.setState({ loading: false })
+        let network = this.state.network
+        let Token = await loadTokens(network[_token], this.state.account, network["STAKING"])
         this.setState({Token: Token.contract})
         this.setState({TokenBalance: Token.accountBalance})
         let StakedBalance = Token.contractBalance
@@ -95,7 +108,7 @@ class Staking extends Component {
         console.log("Token Loaded")
 
         //helpi token contract
-        const helpiToken = await loadContract(HelpiToken.abi, helpiTokenaddress)
+        const helpiToken = await loadContract(HelpiToken.abi, network["HELPI"])
         this.setState({ helpiToken })
         console.log("HELPI loaded")
 
@@ -119,7 +132,7 @@ class Staking extends Component {
 
   unstakeTokens = (tokentype) => {
       this.setState({ loading: true })
-      this.state.yieldFarming.methods.unStakeTokens(Tokenaddress[this.state.tokenName]).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.yieldFarming.methods.unStakeTokens(this.state.network[this.state.tokenName]).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false })
       })
   }
@@ -142,12 +155,16 @@ class Staking extends Component {
 
   render() {
     let content
+    let a
+    let b
     if (this.state.APR == "Infinity") {
       this.state.APR = "100000"
     }
+    if (this.state.supported){
     if (this.state.loading) {
       content = <p id="loader" className="text-center">Loading...</p>
-    } else {
+    }
+    else {
       content = <YieldMain
         tokenName = {this.state.tokenName}
         TokenBalance={this.state.TokenBalance}
@@ -158,15 +175,15 @@ class Staking extends Component {
         unstakeTokens={this.unstakeTokens}
         contribute={this.contribute}
       />
+
+    let primary_token = this.state.network.Tokens[0]
+    let secondary_token = this.state.network.Tokens[1]
+    a = ButtonPill(this.state.tokenName, primary_token, this.handleClick)
+    b = ButtonPill(this.state.tokenName, secondary_token, this.handleClick)
     }
-    let a =
-    <button type="submit" value = "WBTC" class= {this.state.tokenName === "WBTC" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
-    Stake WBTC
-    </button>
-    let b =
-    <button type="submit" value = "USDT" class= {this.state.tokenName === "USDT" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
-    Stake USDT
-    </button>
+    }else{
+        content = <p id="loader" className="text-center">We do not support this Injected network. Please switch to our supported network</p>
+    }
     return (
       <div>
         <div className="container-fluid mt-5">
